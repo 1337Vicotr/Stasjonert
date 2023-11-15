@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="nb">
+
+<head>
+    <meta charset="utf-8">
+    <title>InnaNor</title>
+    <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+<nav>
+    <a href="index.html"><img src="img/logo.svg" class="logo" alt="Logo"></a>
+    <a href="locations.html">Lokasjoner</a>
+    <a href="spaces.html" class="current-nav">Hensettingsplasser</a>
+    <a href="reservations.html">Reservasjoner</a>
+    <a href="createReservation.html">Reserver</a>
+</nav>
+
+<h1><span id="space-title">Hensettingsplass</span> reservasjoner</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Hensettingsplassid</th>
+        <th>Hensettingsplassnavn</th>
+        <th>Reservert av</th>
+        <th>Starttidspunkt</th>
+        <th>Slutttidspunkt</th>
+    </tr>
+    </thead>
+
+    <tbody id="reservations-table-body"></tbody>
+</table>
+
+<script>
+    const spaceTitle = document.querySelector('#space-title');
+    const spaceId = location.hash.substring(1);
+
+    spaceTitle.innerText = 'Lokasjon ' + spaceId;
+
+    const reservationsTableBody = document.querySelector('tbody#reservations-table-body');
+
+    fetch(`http://f21-eksempel.azurewebsites.net/spaces/${spaceId}/reservations`)
+        .then(response => response.json())
+        .then(reservations => {
+            for (const reservationObject of reservations) {
+                reservationsTableBody.insertAdjacentHTML(
+                    'beforeend',
+                    `<tr>
+    <td><a href="reservationDetail.html#${reservationObject.id}">${reservationObject.id}</a></td>
+        <td><a href="spaceDetail.html#${reservationObject.spaceId}">${reservationObject.spaceId}</a></td>
+        <td>${reservationObject.spaceName}</td>
+        <td>${reservationObject.reserver}</td>
+        <td>${reservationObject.startTime}</td>
+        <td>${reservationObject.endTime}</td>
+    </tr>`);
+            }
+        });
+
+</script>
+</body>
+
+</html>

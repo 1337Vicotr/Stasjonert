@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="nb">
+
+<head>
+    <meta charset="utf-8">
+    <title>InnaNor</title>
+    <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+<nav>
+    <a href="index.html"><img src="img/logo.svg" class="logo" alt="Logo"></a>
+    <a href="locations.html" class="current-nav">Lokasjoner</a>
+    <a href="spaces.html">Hensettingsplasser</a>
+    <a href="reservations.html">Reservasjoner</a>
+    <a href="createReservation.html">Reserver</a>
+</nav>
+
+<h1 id="location-title">Lokasjon</h1>
+<span id="location-content"></span>
+
+<script>
+    const locationTitle = document.querySelector('#location-title');
+    const locationContent = document.querySelector('#location-content');
+    const locationId = location.hash.substring(1);
+
+    locationTitle.innerText = 'Lokasjon ' + locationId;
+
+    fetch('http://f21-eksempel.azurewebsites.net/locations/' + locationId)
+        .then(response => response.json())
+        .then(locationObject => {
+            locationContent.innerText = JSON.stringify(locationObject);
+        });
+
+</script>
+</body>
+
+</html>

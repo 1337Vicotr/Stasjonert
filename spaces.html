@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="nb">
+
+<head>
+    <meta charset="utf-8">
+    <title>InnaNor</title>
+    <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+<nav>
+    <a href="index.html"><img src="img/logo.svg" class="logo" alt="Logo"></a>
+    <a href="locations.html">Lokasjoner</a>
+    <a href="spaces.html" class="current-nav">Hensettingsplasser</a>
+    <a href="reservations.html">Reservasjoner</a>
+    <a href="createReservation.html">Reserver</a>
+</nav>
+<h1>Hensettingsplasser</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Navn</th>
+        <th>Beskrivelse</th>
+    </tr>
+    </thead>
+    <tbody id="spaces-table-body"></tbody>
+</table>
+<script>
+    const spacesTableBody = document.querySelector('tbody#spaces-table-body');
+
+    fetch('http://f21-eksempel.azurewebsites.net/spaces')
+        .then(response => response.json())
+        .then(spaces => {
+            for (const spaceObject of spaces) {
+                spacesTableBody.insertAdjacentHTML(
+                    'beforeend',
+                    `<tr>
+    <td><a href="spaceDetail.html#${spaceObject.id}">${spaceObject.id}</a></td>
+        <td>${spaceObject.name}</td>
+        <td>${spaceObject.description}</td>
+    </tr>`);
+            }
+        });
+
+</script>
+</body>
+
+</html>

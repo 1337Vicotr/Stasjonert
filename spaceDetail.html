@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="nb">
+
+<head>
+    <meta charset="utf-8">
+    <title>InnaNor</title>
+    <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+<nav>
+    <a href="index.html"><img src="img/logo.svg" class="logo" alt="Logo"></a>
+    <a href="locations.html">Lokasjoner</a>
+    <a href="spaces.html" class="current-nav">Hensettingsplasser</a>
+    <a href="reservations.html">Reservasjoner</a>
+    <a href="createReservation.html">Reserver</a>
+</nav>
+
+<h1 id="space-title">Hensettingsplass</h1>
+
+<span id="space-content"></span>
+
+<a id="reservations-link" href="spaceReservations.html">Reservasjoner</a>
+
+<script>
+    const spaceTitle = document.querySelector('#space-title');
+    const spaceContent = document.querySelector('#space-content');
+    const reservationsLink = document.querySelector('#reservations-link');
+    const spaceId = location.hash.substring(1);
+
+    spaceTitle.innerText = 'Lokasjon ' + spaceId;
+    reservationsLink.href = 'spaceReservations.html#' + spaceId;
+
+    fetch('http://f21-eksempel.azurewebsites.net/spaces/' + spaceId)
+        .then(response => response.json())
+        .then(spaceObject => {
+            spaceContent.innerText = JSON.stringify(spaceObject);
+        });
+
+</script>
+</body>
+
+</html>
